@@ -211,9 +211,7 @@ def display_results():
     if "Gen AI" in st.session_state.results:
         display_ai_results()
     
-    # Comparison Analysis
-    if len(st.session_state.results) >= 1:
-        display_comparison_section()
+    # Comparison Analysis eliminada por solicitud del usuario
 
 
 def display_ml_results():
@@ -294,73 +292,7 @@ def display_ai_results():
         st.markdown(report)
 
 
-def display_comparison_section():
-    """
-    Display comparison analysis section.
-    """
-    st.header("📊 Comparación de Resultados")
-    
-    if len(st.session_state.results) == 2:
-        # Both methods available
-        ml_result = st.session_state.results["ML Tradicional"]
-        ai_result = st.session_state.results["Gen AI"]
-        
-        # Comparison metrics
-        st.subheader("📈 Comparación de Métricas")
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("🔬 ML Tradicional")
-            st.write(f"**Método**: {ml_result['method']}")
-            st.write(f"**Algoritmo**: {ml_result['algorithm']}")
-            st.write(f"**Clusters**: {ml_result['n_clusters']}")
-            st.write(f"**Silhouette**: {ml_result['metrics']['silhouette_score']:.3f}")
-        
-        with col2:
-            st.subheader("🧠 Gen AI")
-            st.write(f"**Método**: {ai_result['method']}")
-            st.write(f"**Tipo**: {ai_result['segmentation_type']}")
-            st.write(f"**Clusters**: {ai_result['clusters_generated']}")
-            st.write(f"**Modelo**: {ai_result['api_model']}")
-        
-        # AI-powered comparison
-        st.subheader("🤖 Análisis Comparativo Automático con Gen AI")
-        if st.button("🔄 Generar Análisis Comparativo"):
-            with st.spinner("Generando análisis comparativo con IA..."):
-                success, comparison = st.session_state.analyzer.generate_comparison_analysis(
-                    ml_result, ai_result, st.sidebar.text_input("API Key para comparación", type="password")
-                )
-                
-                if success:
-                    st.markdown("### 📊 Análisis Comparativo Generado por IA")
-                    st.markdown(comparison["comparison_analysis"])
-                    
-                    # Download comparison report
-                    comparison_text = f"""
-# Análisis Comparativo - ML vs Gen AI
-
-## Resumen de Comparación
-{comparison['comparison_summary']}
-
-## Análisis Detallado
-{comparison['comparison_analysis']}
-
-## Timestamp
-{comparison['timestamp']}
-"""
-                    
-                    st.download_button(
-                        label="📥 Descargar Reporte Comparativo",
-                        data=comparison_text,
-                        file_name=f"comparison_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md",
-                        mime="text/markdown"
-                    )
-                else:
-                    st.error(f"❌ Error en análisis comparativo: {comparison}")
-    
-    else:
-        # Only one method available
-        st.info("Ejecuta ambos métodos (ML Tradicional y Gen AI) para ver la comparación completa.")
+# Función de análisis comparativo eliminada por solicitud del usuario
 
 
 if __name__ == "__main__":
